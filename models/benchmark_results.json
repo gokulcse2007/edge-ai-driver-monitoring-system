@@ -1,0 +1,8 @@
+{
+    "device": "CPU",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "mean_latency_ms": 184.02,
+    "median_latency_ms": 148.49,
+    "p95_latency_ms": 395.27,
+    "fps_cpu": 5.43
+}

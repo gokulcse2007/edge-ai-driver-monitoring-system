@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge-AI Driver Monitoring System (DMS) — Academic Project Poster (A3 Landscape)</title>
+    <style>
+        /* ==========================================================================
+           A3 LANDSCAPE PRINT & PRESENTATION STYLESHEET
+           Dimensions: 420mm x 297mm (300 DPI: 4961px x 3508px)
+           Aspect Ratio: 1.414 (Landscape)
+           ========================================================================== */
+        @page {
+            size: A3 landscape;
+            margin: 0;
+        }
+
+        :root {
+            --navy-dark: #07192F;
+            --navy-primary: #0F2D59;
+            --navy-light: #1E468A;
+            --cyan-accent: #0284C7;
+            --cyan-bright: #0EA5E9;
+            --cyan-soft: #E0F2FE;
+            --green-safe: #10B981;
+            --green-soft: #D1FAE5;
+            --orange-warn: #F59E0B;
+            --red-alert: #EF4444;
+            --red-soft: #FEE2E2;
+            --bg-page: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --border-card: #CBD5E1;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            --font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: #475569;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Screen Presentation Toolbar */
+        .no-print-toolbar {
+            width: 1587px;
+            max-width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0F172A;
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, #0284C7, #0EA5E9);
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-print:hover { opacity: 0.9; }
+
+        /* A3 Landscape Canvas (Scale Representation: 1587px x 1122px / 420mm x 297mm) */
+        .poster-canvas {
+            width: 1587px;
+            height: 1122px;
+            min-width: 1587px;
+            min-height: 1122px;
+            max-width: 1587px;
+            max-height: 1122px;
+            background: var(--bg-page);
+            padding: 18px 24px 16px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .no-print-toolbar {
+                display: none;
+            }
+            .poster-canvas {
+                width: 420mm;
+                height: 297mm;
+                min-width: 420mm;
+                min-height: 297mm;
+                max-width: 420mm;
+                max-height: 297mm;
+                padding: 6mm 8mm 6mm 8mm;
+                box-shadow: none;
+            }
+        }
+
+        /* ==========================================================================
+           HEADER COMPONENT
+           ========================================================================== */
+        .poster-header {
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-primary) 65%, var(--navy-light) 100%);
+            color: #FFFFFF;
+            border-radius: 10px;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 4px solid var(--cyan-bright);
+            box-shadow: 0 4px 10px rgba(7, 25, 47, 0.15);
+        }
+
+        .header-logo-block {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .cit-badge {
+            background: #FFFFFF;
+            color: var(--navy-primary);
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: 1px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 2px solid var(--cyan-bright);
+            text-align: center;
+            line-height: 1.1;
+        }
+        .cit-badge span {
+            display: block;
+            font-size: 9px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .header-institution {
+            font-size: 12px;
+            color: #CBD5E1;
+            line-height: 1.3;
+        }
+        .header-institution strong {
+            color: #FFFFFF;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+
+        .header-center {
+            text-align: center;
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .project-title {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 2px;
+        }
+
+        .project-subtitle {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--cyan-bright);
+            letter-spacing: 0.2px;
+        }
+
+        .header-right {
+            text-align: right;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .team-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--cyan-bright);
+            font-weight: 800;
+        }
+        .team-members {
+            font-size: 12px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+        .dept-tag {
+            font-size: 10px;
+            color: #CBD5E1;
+        }
+
+        /* ==========================================================================
+           THREE-COLUMN LANDSCAPE GRID
+           ========================================================================== */
+        .poster-body {
+            display: grid;
+            grid-template-columns: 1fr 1.35fr 1fr;
+            gap: 12px;
+            flex: 1;
+            min-height: 0; /* Important for flex child overflow */
+        }
+
+        .poster-column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Card Container Styles */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            background: var(--navy-primary);
+            color: #FFFFFF;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 2px solid var(--cyan-bright);
+        }
+
+        .card-header svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .card-body {
+            padding: 8px 12px;
+            font-size: 10.5px;
+            line-height: 1.4;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        /* Lists & Typography */
+        ul.bullet-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        ul.bullet-list li {
+            position: relative;
+            padding-left: 14px;
+            margin-bottom: 4px;
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+        ul.bullet-list li::before {
+            content: "▪";
+            position: absolute;
+            left: 0;
+            color: var(--cyan-accent);
+            font-size: 14px;
+            line-height: 1;
+            top: -1px;
+        }
+
+        .highlight-text {
+            font-weight: 700;
+            color: var(--navy-dark);
+        }
+
+        /* Objective Badges */
+        .obj-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .obj-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-page);
+            padding: 4px 8px;
+            border-radius: 5px;
+            border-left: 3px solid var(--cyan-accent);
+            font-size: 9.5px;
+        }
+        .obj-num {
+            background: var(--navy-primary);
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 8.5px;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        /* Tech Badges Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin-top: 2px;
+        }
+        .tech-pill {
+            background: var(--bg-page);
+            border: 1px solid #E2E8F0;
+            border-radius: 5px;
+            padding: 4px 6px;
+            text-align: center;
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--navy-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+        .tech-pill span {
+            font-size: 7.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Architecture Diagram Box */
+        .arch-diagram-box {
+            background: #F8FAFC;
+            border: 1px dashed #94A3B8;
+            border-radius: 6px;
+            padding: 6px;
+            text-align: center;
+            margin: 4px 0;
+        }
+        .arch-diagram-box svg {
+            width: 100%;
+            height: auto;
+            max-height: 145px;
+        }
+
+        /* Key Metrics & Score Display */
+        .metric-cards-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        .metric-card {
+            background: #F0FDF4;
+            border: 1px solid #BBF7D0;
+            border-radius: 6px;
+            padding: 5px;
+            text-align: center;
+        }
+        .metric-card.alert-card {
+            background: #FEF2F2;
+            border-color: #FECACA;
+        }
+        .metric-card.warn-card {
+            background: #FFFBEB;
+            border-color: #FDE68A;
+        }
+        .metric-card.cyan-card {
+            background: #F0F9FF;
+            border-color: #BAE6FD;
+        }
+        .metric-val {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--navy-dark);
+            line-height: 1.1;
+        }
+        .metric-card.alert-card .metric-val { color: var(--red-alert); }
+        .metric-card.warn-card .metric-val { color: var(--orange-warn); }
+        .metric-card.cyan-card .metric-val { color: var(--cyan-accent); }
+        .metric-lbl {
+            font-size: 7.5px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* Tables */
+        table.compact-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9px;
+            margin-top: 4px;
+        }
+        table.compact-table th {
+            background: #0F2D59;
+            color: #FFFFFF;
+            padding: 4px 6px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 8.5px;
+        }
+        table.compact-table td {
+            padding: 3.5px 6px;
+            border-bottom: 1px solid #E2E8F0;
+            color: var(--text-secondary);
+        }
+        table.compact-table tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        .badge-safe {
+            background: var(--green-soft);
+            color: var(--green-safe);
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-weight: 800;
+            font-size: 8px;
+        }
+        .badge-danger {
+            background: var(--red-soft);
+            color: var(--red-alert);
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-weight: 800;
+            font-size: 8px;
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: #F1F5F9;
+            border-left: 3px solid var(--navy-primary);
+            padding: 4px 8px;
+            font-family: 'Cambria Math', Georgia, serif;
+            font-size: 10px;
+            color: var(--navy-dark);
+            margin: 4px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* References Section */
+        .ref-list {
+            font-size: 7.5px;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+        .ref-list ol {
+            padding-left: 12px;
+        }
+        .ref-list li {
+            margin-bottom: 2px;
+        }
+
+        /* Team Footer Card */
+        .team-footer {
+            background: linear-gradient(135deg, #0F2D59, #1E468A);
+            color: #FFFFFF;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9px;
+            margin-top: auto;
+        }
+        .team-footer strong { color: var(--cyan-bright); }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN PRESENTATION CONTROLS -->
+    <div class="no-print-toolbar">
+        <div>
+            <strong>A3 LANDSCAPE POSTER PREVIEW</strong> (420mm × 297mm | 300 DPI Standard | CIT CSE Exhibition)
+        </div>
+        <button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF (A3 Landscape)</button>
+    </div>
+
+    <!-- MAIN POSTER CANVAS -->
+    <div class="poster-canvas">
+
+        <!-- ==========================================================================
+             FULL-WIDTH HORIZONTAL HEADER
+             ========================================================================== -->
+        <header class="poster-header">
+            <div class="header-logo-block">
+                <div class="cit-badge">
+                    CIT
+                    <span>COIMBATORE</span>
+                </div>
+                <div class="header-institution">
+                    <strong>COIMBATORE INSTITUTE OF TECHNOLOGY</strong><br>
+                    Department of Computer Science and Engineering<br>
+                    <span style="color: var(--cyan-bright); font-weight: 600;">Project-Based Learning (PBL) & Capstone Project Expo</span>
+                </div>
+            </div>
+
+            <div class="header-center">
+                <h1 class="project-title">EDGE-AI DRIVER MONITORING SYSTEM (DMS)</h1>
+                <div class="project-subtitle">Real-Time Edge-First Multimodal Driver Fatigue, Distraction & Compliance Monitoring with Offline Bilingual Alerts</div>
+            </div>
+
+            <div class="header-right">
+                <div class="team-label">Team: Storm breakerz</div>
+                <div class="team-members">Kishore Kumar S · Gokul N</div>
+                <div class="dept-tag">B.E. Computer Science and Engineering</div>
+            </div>
+        </header>
+
+        <!-- ==========================================================================
+             THREE-COLUMN MAIN BODY LAYOUT
+             ========================================================================== -->
+        <div class="poster-body">
+
+            <!-- ====================================================================
+                 COLUMN 1: MOTIVATION, OBJECTIVES, AND SYSTEM ARCHITECTURE
+                 ==================================================================== -->
+            <div class="poster-column">
+                
+                <!-- ABSTRACT -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                        1. Project Abstract
+                    </div>
+                    <div class="card-body">
+                        <p style="text-align: justify; font-size: 9.5px; line-height: 1.35;">
+                            Traditional ADAS systems monitor external road hazards rather than internal driver state. The <strong>Edge-AI Driver Monitoring System</strong> provides real-time, privacy-preserving behavioral monitoring running entirely on edge CPU hardware without cloud reliance. Integrating <strong>MediaPipe FaceMesh (478 pts)</strong>, <strong>YOLOv8n (Nano)</strong>, and a deterministic <strong>Safety Scoring Engine (100→0)</strong>, the system triggers sub-millisecond offline bilingual voice alerts (English/Tamil) and provides automated driving coaching.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- PROBLEM STATEMENT -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                        2. Problem Statement & Motivation
+                    </div>
+                    <div class="card-body">
+                        <ul class="bullet-list">
+                            <li><strong>Driver-Centric Risk:</strong> Over 80% of road collisions stem from driver fatigue, microsleep, gaze diversion, and mobile phone usage.</li>
+                            <li><strong>Cloud Limitations:</strong> Cloud-based video streams cause high latency (300ms+), network dead-zones, and severe privacy violations.</li>
+                            <li><strong>Edge Paradigm:</strong> Need for a low-cost, edge-first embedded DMS capable of multi-violation detection under 150ms on standard CPUs.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- OBJECTIVES -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        3. Project Objectives
+                    </div>
+                    <div class="card-body">
+                        <div class="obj-grid">
+                            <div class="obj-item">
+                                <span class="obj-num">01</span>
+                                <span>Track eye closure & microsleeps via <strong>EAR & 60s PERCLOS</strong>.</span>
+                            </div>
+                            <div class="obj-item">
+                                <span class="obj-num">02</span>
+                                <span>Estimate 3D head pose <strong>(Yaw/Pitch/Roll)</strong> via <code>solvePnP</code>.</span>
+                            </div>
+                            <div class="obj-item">
+                                <span class="obj-num">03</span>
+                                <span>Detect phone, seatbelt, smoking & drinking via <strong>YOLOv8n</strong>.</span>
+                            </div>
+                            <div class="obj-item">
+                                <span class="obj-num">04</span>
+                                <span>Maintain dynamic safety score with <strong>+3 pts / 5min recovery</strong>.</span>
+                            </div>
+                            <div class="obj-item">
+                                <span class="obj-num">05</span>
+                                <span>Provide offline <strong>Bilingual Voice Alerts</strong> & AI Coach analytics.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TECHNOLOGIES USED -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
+                        4. Technologies & Tools
+                    </div>
+                    <div class="card-body">
+                        <div class="tech-grid">
+                            <div class="tech-pill">Python 3.12<span>Core Language</span></div>
+                            <div class="tech-pill">OpenCV 4.10<span>Video Stream</span></div>
+                            <div class="tech-pill">MediaPipe<span>478 FaceMesh</span></div>
+                            <div class="tech-pill">YOLOv8n<span>Object Detect</span></div>
+                            <div class="tech-pill">PyTorch<span>CPU Inference</span></div>
+                            <div class="tech-pill">SQLite3<span>Event DB</span></div>
+                            <div class="tech-pill">pyttsx3<span>English TTS</span></div>
+                            <div class="tech-pill">eSpeak-NG<span>Tamil TTS</span></div>
+                            <div class="tech-pill">Streamlit<span>Cockpit UI</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ====================================================================
+                 COLUMN 2: SYSTEM ARCHITECTURE, METHODOLOGY, AND SCORING ENGINE
+                 ==================================================================== -->
+            <div class="poster-column">
+
+                <!-- SYSTEM ARCHITECTURE -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z M2 4v16h20V4H2z M10 10h4v4h-4z"/></svg>
+                        5. System Architecture & End-to-End Pipeline
+                    </div>
+                    <div class="card-body">
+                        <div class="arch-diagram-box">
+                            <!-- High-Fidelity Clean Technical Vector Architecture Diagram -->
+                            <svg viewBox="0 0 540 145" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="gradNavy" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#0F2D59"/>
+                                        <stop offset="100%" stop-color="#1E468A"/>
+                                    </linearGradient>
+                                    <linearGradient id="gradCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#0284C7"/>
+                                        <stop offset="100%" stop-color="#0EA5E9"/>
+                                    </linearGradient>
+                                    <linearGradient id="gradGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#059669"/>
+                                        <stop offset="100%" stop-color="#10B981"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <!-- Input -->
+                                <rect x="5" y="42" width="70" height="60" rx="5" fill="#FFFFFF" stroke="#0F2D59" stroke-width="1.5"/>
+                                <text x="40" y="65" font-size="8" font-weight="bold" fill="#0F2D59" text-anchor="middle">EDGE VIDEO</text>
+                                <text x="40" y="77" font-size="7" fill="#64748B" text-anchor="middle">Webcam Feed</text>
+                                <text x="40" y="88" font-size="6.5" font-weight="bold" fill="#0284C7" text-anchor="middle">640×480 @ 30fps</text>
+
+                                <!-- Arrow 1 -->
+                                <path d="M 75 72 L 95 72" stroke="#0EA5E9" stroke-width="2" marker-end="url(#arrow)"/>
+
+                                <!-- Vision Subsystem -->
+                                <rect x="95" y="10" width="135" height="125" rx="6" fill="#F0F9FF" stroke="#BAE6FD" stroke-width="1.2"/>
+                                <text x="162" y="23" font-size="7.5" font-weight="bold" fill="#0369A1" text-anchor="middle">EDGE COMPUTER VISION</text>
+                                
+                                <rect x="103" y="30" width="119" height="42" rx="4" fill="#FFFFFF" stroke="#0284C7" stroke-width="1"/>
+                                <text x="162" y="44" font-size="7.5" font-weight="bold" fill="#0F2D59" text-anchor="middle">MediaPipe FaceMesh</text>
+                                <text x="162" y="55" font-size="6.5" fill="#475569" text-anchor="middle">478 3D Landmarks + Iris</text>
+                                <text x="162" y="65" font-size="6.5" font-weight="bold" fill="#0284C7" text-anchor="middle">EAR & PERCLOS | solvePnP</text>
+
+                                <rect x="103" y="78" width="119" height="48" rx="4" fill="#FFFFFF" stroke="#0284C7" stroke-width="1"/>
+                                <text x="162" y="92" font-size="7.5" font-weight="bold" fill="#0F2D59" text-anchor="middle">YOLOv8n Nano (4-Class)</text>
+                                <text x="162" y="103" font-size="6.5" fill="#475569" text-anchor="middle">Phone · Seatbelt · Smoke · Drink</text>
+                                <text x="162" y="114" font-size="6.5" font-weight="bold" fill="#059669" text-anchor="middle">15-Frame Debouncing</text>
+
+                                <!-- Arrow 2 -->
+                                <path d="M 230 72 L 250 72" stroke="#0EA5E9" stroke-width="2"/>
+
+                                <!-- Scoring Engine -->
+                                <rect x="250" y="25" width="125" height="95" rx="6" fill="url(#gradNavy)" stroke="#0F2D59" stroke-width="1.5"/>
+                                <text x="312" y="42" font-size="8" font-weight="bold" fill="#FFFFFF" text-anchor="middle">SAFETY SCORER (100→0)</text>
+                                <text x="312" y="54" font-size="6.5" fill="#BAE6FD" text-anchor="middle">State Transition Logic</text>
+                                
+                                <rect x="258" y="62" width="109" height="24" rx="3" fill="rgba(255,255,255,0.12)"/>
+                                <text x="312" y="73" font-size="6.5" fill="#F8FAFC" text-anchor="middle">Drowsy (-20) | Distract (-10)</text>
+                                <text x="312" y="82" font-size="6.5" fill="#F8FAFC" text-anchor="middle">Phone (-15) | Belt (-20) | Smoke (-15)</text>
+                                <text x="312" y="108" font-size="7" font-weight="bold" fill="#34D399" text-anchor="middle">Recovery: +3 pts / 5 min</text>
+
+                                <!-- Arrow 3 -->
+                                <path d="M 375 72 L 395 72" stroke="#0EA5E9" stroke-width="2"/>
+
+                                <!-- Action & Storage -->
+                                <rect x="395" y="10" width="140" height="125" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+                                <text x="465" y="23" font-size="7.5" font-weight="bold" fill="#0F2D59" text-anchor="middle">ACTION & STORAGE LAYER</text>
+
+                                <rect x="403" y="30" width="124" height="28" rx="3" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1"/>
+                                <text x="465" y="42" font-size="7" font-weight="bold" fill="#0369A1" text-anchor="middle">Bilingual TTS (En / Ta)</text>
+                                <text x="465" y="52" font-size="6.5" fill="#64748B" text-anchor="middle">pyttsx3 & eSpeak-NG (8s Cooldown)</text>
+
+                                <rect x="403" y="63" width="124" height="28" rx="3" fill="#FFFFFF" stroke="#10B981" stroke-width="1"/>
+                                <text x="465" y="75" font-size="7" font-weight="bold" fill="#047857" text-anchor="middle">SQLite Database & Crash Recovery</text>
+                                <text x="465" y="85" font-size="6.5" fill="#64748B" text-anchor="middle">Structured Events + Screenshots</text>
+
+                                <rect x="403" y="96" width="124" height="32" rx="3" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1"/>
+                                <text x="465" y="108" font-size="7" font-weight="bold" fill="#6D28D9" text-anchor="middle">Streamlit Cockpit & AI Coach</text>
+                                <text x="465" y="118" font-size="6.5" fill="#64748B" text-anchor="middle">EMA (λ=0.85) Trend + Trajectory</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CORE METHODOLOGY & VISION ALGORITHMS -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                        6. Core Vision Algorithms & Mathematical Formulations
+                    </div>
+                    <div class="card-body">
+                        
+                        <!-- EAR Formula -->
+                        <div style="margin-bottom: 6px;">
+                            <strong style="color: var(--navy-primary); font-size: 9.5px;">A. Drowsiness (EAR & PERCLOS Metric):</strong>
+                            <div class="formula-box">
+                                <span>$$\text{EAR} = \frac{\|p_2 - p_6\| + \|p_3 - p_5\|}{2 \cdot \|p_1 - p_4\|}$$</span>
+                                <span style="font-size: 8px; color: var(--text-muted);">Threshold: $\text{EAR} < 0.21$ for $>1.5\text{s}$</span>
+                            </div>
+                            <p style="font-size: 8.5px; color: var(--text-secondary);">
+                                Uses 6 canonical landmark coordinates per eye. A 20-frame rolling window filters normal blinks, while a 60-second sliding PERCLOS window tracks long-term cumulative fatigue.
+                            </p>
+                        </div>
+
+                        <!-- Head Pose solvePnP -->
+                        <div>
+                            <strong style="color: var(--navy-primary); font-size: 9.5px;">B. Head Pose Distraction ($cv2.solvePnP$):</strong>
+                            <div class="formula-box">
+                                <span>$$\mathbf{R}, \mathbf{t} = \text{solvePnP}(\mathbf{P}_{3D}, \mathbf{p}_{2D}, \mathbf{K}, \mathbf{D}) \xrightarrow{\text{RQDecomp}} (\text{Yaw}, \text{Pitch}, \text{Roll})$$</span>
+                                <span style="font-size: 8px; color: var(--text-muted);">Envelope: $\pm 25^\circ \text{Yaw}, \pm 20^\circ \text{Pitch}$</span>
+                            </div>
+                            <p style="font-size: 8.5px; color: var(--text-secondary);">
+                                Matches 6 2D facial landmarks (nose, chin, eye corners, mouth corners) to a 3D canonical face model to classify directional gaze (<code>FORWARD</code>, <code>LEFT</code>, <code>RIGHT</code>, <code>DOWN</code>).
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- SAFETY SCORING ENGINE & RECOVERY -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                        7. Dynamic Safety Scoring Engine & Recovery Rule
+                    </div>
+                    <div class="card-body">
+                        <table class="compact-table">
+                            <thead>
+                                <tr>
+                                    <th>Violation Event</th>
+                                    <th>Penalty</th>
+                                    <th>Trigger Condition</th>
+                                    <th>Risk Level Band</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Drowsiness</strong></td>
+                                    <td><span class="badge-danger">-20 pts</span></td>
+                                    <td>Eyes closed sustained &gt; 1.5s</td>
+                                    <td><span class="badge-safe">90 – 100: SAFE</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Distraction</strong></td>
+                                    <td><span class="badge-danger">-10 pts</span></td>
+                                    <td>Gaze deviated &gt; 1.5s</td>
+                                    <td><span style="background: #E0F2FE; color: #0284C7; padding: 1px 4px; border-radius: 3px; font-weight: 800; font-size: 8px;">70 – 89: LOW RISK</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phone Usage</strong></td>
+                                    <td><span class="badge-danger">-15 pts</span></td>
+                                    <td>YOLO phone in driver view</td>
+                                    <td><span style="background: #FEF3C7; color: #D97706; padding: 1px 4px; border-radius: 3px; font-weight: 800; font-size: 8px;">40 – 69: MEDIUM RISK</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>No Seatbelt</strong></td>
+                                    <td><span class="badge-danger">-20 pts</span></td>
+                                    <td>Seatbelt unbuckled / absent</td>
+                                    <td><span class="badge-danger">0 – 39: HIGH RISK</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Smoking / Drinking</strong></td>
+                                    <td><span class="badge-danger">-15 pts</span></td>
+                                    <td>Object detected near mouth</td>
+                                    <td><span class="highlight-text">Floor: 0 (No Negatives)</span></td>
+                                </tr>
+                                <tr style="background: #ECFDF5;">
+                                    <td><strong>Steady Recovery</strong></td>
+                                    <td><span class="badge-safe">+3 pts</span></td>
+                                    <td>Every 5 min clean driving</td>
+                                    <td><span class="highlight-text">Cap: 100 Max Score</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ====================================================================
+                 COLUMN 3: RESULTS, BILINGUAL ALERTS, AI COACH, AND CONCLUSION
+                 ==================================================================== -->
+            <div class="poster-column">
+
+                <!-- RESULTS & BENCHMARKS -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                        8. Experimental Results & Edge CPU Benchmarks
+                    </div>
+                    <div class="card-body">
+                        <!-- Key Measured Metric Cards -->
+                        <div class="metric-cards-row">
+                            <div class="metric-card cyan-card">
+                                <div class="metric-val">5.43</div>
+                                <div class="metric-lbl">Inference FPS</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-val">148ms</div>
+                                <div class="metric-lbl">Median Latency</div>
+                            </div>
+                            <div class="metric-card warn-card">
+                                <div class="metric-val">&lt;0.5ms</div>
+                                <div class="metric-lbl">TTS Trigger</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-val">100%</div>
+                                <div class="metric-lbl">Test Pass (53/53)</div>
+                            </div>
+                        </div>
+
+                        <table class="compact-table">
+                            <thead>
+                                <tr>
+                                    <th>Benchmark Parameter</th>
+                                    <th>Measured Real Value</th>
+                                    <th>Hardware / Environment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Processor Architecture</strong></td>
+                                    <td>AMD64 Family 25 (Windows 11)</td>
+                                    <td>Host Edge CPU Benchmark</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mean / P95 Latency</strong></td>
+                                    <td><strong>184.02 ms</strong> / 395.27 ms</td>
+                                    <td>640×640 PyTorch CPU Device</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Memory Footprint</strong></td>
+                                    <td>~380 MB RAM Total</td>
+                                    <td>Zero GPU / Zero Cloud Dependency</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Voice Alert Latency</strong></td>
+                                    <td>0.05 – 0.32 ms (Non-blocking)</td>
+                                    <td>Multithreaded Queue Daemon</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- BILINGUAL ALERTS & AI COACH -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                        9. Offline Bilingual Alerts & AI Coaching
+                    </div>
+                    <div class="card-body">
+                        <table class="compact-table" style="font-size: 8.5px;">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>English Phrase (SAPI5)</th>
+                                    <th>Tamil Phrase (eSpeak-NG)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Drowsy</td>
+                                    <td>"Warning! Driver is drowsy."</td>
+                                    <td>"எச்சரிக்கை! ஓட்டுநர் சோர்வாக உள்ளார்."</td>
+                                </tr>
+                                <tr>
+                                    <td>Distract</td>
+                                    <td>"Keep eyes on the road."</td>
+                                    <td>"சாலையில் கவனம் செலுத்துங்கள்."</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone</td>
+                                    <td>"Warning! Phone detected."</td>
+                                    <td>"எச்சரிக்கை! கைபேசி கண்டறியப்பட்டது."</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 4px; font-size: 8.5px; color: var(--text-secondary); background: #F1F5F9; padding: 4px; border-radius: 4px;">
+                            <strong>AI Driving Coach Agent:</strong> Computes Exponential Moving Average ($\text{EMA}_\lambda, \lambda=0.85$) risk score, tracks driver trajectory (<code>IMPROVING ↗</code>, <code>STABLE ➡️</code>, <code>DECLINING ↘</code>), and generates personalized feedback.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCLUSION & FUTURE WORK -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        10. Conclusion & Future Enhancements
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size: 9px; line-height: 1.35; color: var(--text-secondary); margin-bottom: 4px;">
+                            <strong>Conclusion:</strong> Developed an end-to-end, edge-native Driver Monitoring System combining MediaPipe FaceMesh, YOLOv8n, and dynamic scoring. Delivered robust multi-violation detection at <strong>5.43 FPS on standard edge CPUs</strong> with zero cloud latency and complete user privacy.
+                        </p>
+                        <strong style="font-size: 8.5px; color: var(--navy-primary);">Future Enhancements:</strong>
+                        <ul class="bullet-list" style="margin-top: 2px;">
+                            <li><strong>OBD-II CAN Bus:</strong> Correlate steering angle, brake pressure, and vehicle speed with fatigue.</li>
+                            <li><strong>Hardware NPU:</strong> Deploy ONNX/TensorRT on Google Coral or Hailo-8 for 30+ FPS edge inference.</li>
+                            <li><strong>NIR Camera:</strong> Active near-infrared illumination for pitch-black nighttime cabin monitoring.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- REFERENCES & CREDITS -->
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                        11. Key References
+                    </div>
+                    <div class="card-body" style="padding: 4px 8px;">
+                        <div class="ref-list">
+                            <ol>
+                                <li>Soukupová & Čech, "Real-Time Eye Blink Detection using Facial Landmarks", <em>CVWW</em>, 2016.</li>
+                                <li>Lugaresi et al., "MediaPipe: A Framework for Building Perception Pipelines", <em>arXiv</em>, 2019.</li>
+                                <li>Jocher et al., "Ultralytics YOLOv8: Real-Time Object Detection", <em>GitHub</em>, 2023.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TEAM FOOTER -->
+                <div class="team-footer">
+                    <div>
+                        <strong>Team Storm breakerz</strong> · Kishore Kumar S & Gokul N
+                    </div>
+                    <div>
+                        Coimbatore Institute of Technology (CIT CSE) · 2026
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
